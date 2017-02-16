@@ -2,6 +2,9 @@ QuadStrike
 by MrOnlineCoder
 --------------------
 
+v.1.2.0 (17 Feb 2017)
+- Added death effect
+
 v.1.1.0 (17 Feb 2017)
 - Added rotation for players
 - Changed blue player controls
