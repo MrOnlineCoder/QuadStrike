@@ -29,7 +29,7 @@ Particle::Particle(Color color, float x, float y, int mdir)
     spr.setFillColor(color);
     spr.setPosition(x,y);
     dir = mdir;
-    vel.y = PARTICLE_MAX_ACCEL;
+    vel.y = PARTICLE_Y_MAX_ACCEL;
     finishedJump = false;
     finishedX = false;
 }
@@ -57,10 +57,10 @@ void Particle::update()
     if (!finishedX) {
         if (dir == 1) {
             vel.x -= PARTICLE_ACCEL;
-            if (vel.x < -PARTICLE_MAX_ACCEL) finishedX = true;
+            if (vel.x < -PARTICLE_X_MAX_ACCEL) finishedX = true;
         } else {
             vel.x += PARTICLE_ACCEL;
-            if (vel.x > PARTICLE_MAX_ACCEL) finishedX = true;
+            if (vel.x > PARTICLE_X_MAX_ACCEL) finishedX = true;
         }
         spr.move(vel.x, 0);
     }

@@ -72,9 +72,12 @@ class PlayScreen: public Screen {
         Text winText;
         bool isGameEnded;
         vector<Particle> particles;
+        int endParticles;
+        Clock deathClock; // Strange name...
+        Color loseColor;
+        Vector2f deathPos;
+        LocalPlayer* loser;
 };
-
-
 
 
 void PlayScreen::boomParticles(float x, float y, Color c)
@@ -97,20 +100,28 @@ void PlayScreen::boomParticles(float x, float y, Color c)
 
 void PlayScreen::endGame(int player)
 {
-    Color winColor;
     string winStr;
+    Color winColor;
 
     if (player == 0) {
+        loseColor = COLOR_BLUE_PLAYER;
         winColor = COLOR_RED_PLAYER;
         winStr = "Red wins";
-        blue.spr.setColor(Color(255,255,255,0));
+        //blue.spr.setColor(Color(255,255,255,0));
+        deathPos = blue.spr.getPosition();
+        loser = &blue;
     }
 
     if (player == 1) {
         winColor = COLOR_BLUE_PLAYER;
+        loseColor = COLOR_RED_PLAYER;
         winStr = "Blue wins";
-        red.spr.setColor(Color(255,255,255,0));
+        //red.spr.setColor(Color(255,255,255,0));
+        deathPos = red.spr.getPosition();
+        loser = &red;
     }
+
+
     isGameEnded = true;
     bg.setVolume(25);
     winSnd.play();
@@ -132,10 +143,10 @@ void PlayScreen::shootLaser(int player)
             redLaser.setRotation(red.spr.getRotation());
             if (redLaser.getGlobalBounds().intersects(blue.spr.getGlobalBounds())) {
                 boomParticles(blue.spr.getPosition().x+blue.spr.getGlobalBounds().width/2, blue.spr.getPosition().y+blue.spr.getGlobalBounds().height/2, COLOR_BLUE_PLAYER);
+                logger->log("Blue player was damaged.");
                 if (blue.damage(1)) {
                     endGame(0);
                 }
-                logger->log("Blue player was damaged.");
             }
         }
     }
@@ -149,10 +160,10 @@ void PlayScreen::shootLaser(int player)
             blueLaser.setRotation(blue.spr.getRotation());
             if (blueLaser.getGlobalBounds().intersects(red.spr.getGlobalBounds())) {
                 boomParticles(red.spr.getPosition().x+red.spr.getGlobalBounds().width/2, red.spr.getPosition().y+red.spr.getGlobalBounds().height/2, COLOR_RED_PLAYER);
+                logger->log("Red player was damaged.");
                 if (red.damage(1)) {
                     endGame(1);
                 }
-                logger->log("Red player was damaged.");
             }
         }
     }
@@ -228,6 +239,20 @@ int PlayScreen::run(RenderWindow& window)
     if (!isGameEnded) blue.update();
     if (redLaser.getColor().a > 0) redLaser.setColor(Color(255,255,255,redLaser.getColor().a-5));
     if (blueLaser.getColor().a > 0) blueLaser.setColor(Color(255,255,255,blueLaser.getColor().a-5));
+    if (isGameEnded) {
+        if (endParticles < DEATH_PARTICLES && deathClock.getElapsedTime().asMilliseconds() > DEATH_DELAY) {
+            endParticles++;
+            deathClock.restart();
+            Particle particle(loseColor, loser->spr.getPosition().x+loser->spr.getGlobalBounds().width/2, loser->spr.getPosition().y, rand() % 2);
+            particles.push_back(particle);
+            Color lc = loser->spr.getColor();
+            lc.a--;
+            loser->spr.setColor(lc);
+            if (endParticles == DEATH_PARTICLES) {
+                loser->spr.setColor(Color(255,255,255,0));
+            }
+        }
+    }
 
     //Render
     window.clear(COLOR_GAME_BACKGROUND);
@@ -261,6 +286,7 @@ void PlayScreen::init()
     blue = LocalPlayer(blueTex, "The Blue", WINDOW_WIDTH*0.75-redTex.getSize().x/2, (WINDOW_HEIGHT*0.25)-redTex.getSize().x/2);
     logger->log("Play!");
     bg.play();
+    endParticles = 0;
 }
 
 

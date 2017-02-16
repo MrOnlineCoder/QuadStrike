@@ -30,12 +30,15 @@ const int CHARGE_TIME = 2750;
 const int PLAYER_MAX_HEALTH = 3;
 const float PLAYER_MAX_ACCELL = 15;
 const float PLAYER_ACCEL = 0.2f;
-const float PARTICLE_ACCEL = 2.0f;
-const float PARTICLE_MAX_ACCEL = 30;
+const float PARTICLE_ACCEL = 1.0f;
+const float PARTICLE_X_MAX_ACCEL = 30;
+const float PARTICLE_Y_MAX_ACCEL = 15;
 const float PARTICLE_GRAVITY = 3;
 const float PARTICLE_GRAVITY_MAX = 25;
 const int PARTICLE_SIZE = 8;
 const int PARTICLES = 2;
+const int DEATH_PARTICLES = 30;
+const float DEATH_DELAY = 25; //in ms
 
 #endif // QS_COLORS_H
 
