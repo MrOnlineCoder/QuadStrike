@@ -4,3 +4,7 @@ QuadStrike.depend
 debug.log
 obj
 bin
+sfml-window-d-2.dll
+sfml-system-d-2.dll
+sfml-graphics-d-2.dll
+sfml-audio-d-2.dll

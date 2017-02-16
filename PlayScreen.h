@@ -129,6 +129,7 @@ void PlayScreen::shootLaser(int player)
             red.shoot();
             redLaser.setPosition(red.spr.getPosition().x+red.spr.getGlobalBounds().width/2, red.spr.getPosition().y-rlaserTex.getSize().y+26);
             redLaser.setColor(Color(255,255,255,255));
+            redLaser.setRotation(red.spr.getRotation());
             if (redLaser.getGlobalBounds().intersects(blue.spr.getGlobalBounds())) {
                 boomParticles(blue.spr.getPosition().x+blue.spr.getGlobalBounds().width/2, blue.spr.getPosition().y+blue.spr.getGlobalBounds().height/2, COLOR_BLUE_PLAYER);
                 if (blue.damage(1)) {
@@ -145,6 +146,7 @@ void PlayScreen::shootLaser(int player)
             blue.shoot();
             blueLaser.setPosition(blue.spr.getPosition().x+blue.spr.getGlobalBounds().width/2, blue.spr.getPosition().y+blue.spr.getGlobalBounds().height-15);
             blueLaser.setColor(Color(255,255,255,255));
+            blueLaser.setRotation(blue.spr.getRotation());
             if (blueLaser.getGlobalBounds().intersects(red.spr.getGlobalBounds())) {
                 boomParticles(red.spr.getPosition().x+red.spr.getGlobalBounds().width/2, red.spr.getPosition().y+red.spr.getGlobalBounds().height/2, COLOR_RED_PLAYER);
                 if (red.damage(1)) {
@@ -182,7 +184,7 @@ int PlayScreen::run(RenderWindow& window)
                 shootLaser(1);
             }
 
-            if (e.key.code == Keyboard::RShift) {
+            if (e.key.code == Keyboard::Return) {
                 shootLaser(2);
             }
 
@@ -294,6 +296,7 @@ PlayScreen::PlayScreen(Logger* glogger)
     bg.openFromFile("res/music/game.ogg");
     bg.stop();
     bg.setLoop(true);
+
 
     infoText.setFont(f);
     infoText.setColor(Color::Black);

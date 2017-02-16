@@ -184,7 +184,7 @@ MainScreen::MainScreen(Logger* glogger)
     blackClock.restart();
 
     help.setFont(f);
-    help.setString("How to play: \n\nGoal: Destroy enemy who has 3 HP using laser\n\nControls:\nRed: WASD to move and Q to shoot\nBlue: Arrows to move and Right Shift to shoot");
+    help.setString("How to play: \n\nGoal: Destroy enemy who has 3 HP using laser\n\nControls:\nRed: WASD to move and Q to shoot\nBlue: Arrows to move and Enter to shoot");
     help.setPosition(WINDOW_WIDTH-ALIGN-help.getGlobalBounds().width, 150);
     help.setColor(Color::Black);
 

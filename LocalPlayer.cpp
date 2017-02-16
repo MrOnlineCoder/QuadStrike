@@ -54,6 +54,8 @@ void LocalPlayer::update()
             vel.x = 0.0f;
             spr.setPosition(WINDOW_WIDTH-spr.getGlobalBounds().width, spr.getPosition().y);
     }
+
+    spr.setRotation(vel.x);
 }
 bool LocalPlayer::isCharged()
 {
